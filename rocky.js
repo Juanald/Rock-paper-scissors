@@ -1,4 +1,5 @@
-let points = 0;
+let ppoints = 0;
+let cpoints = 0;
 
 function getComputerChoice() {
   /*
@@ -16,38 +17,74 @@ function playRound(playerSelection, computerSelection) {
   // Returns the winner
   let player = playerSelection.toLowerCase();
   if (player == computerSelection) {
-    return "Tie!";
+    console.log("Tie!");
+    return null;
   }
   switch (player) {
     case "rock":
       if (computerSelection == "scissors") {
-        return `Player wins! ${player} beats ${computerSelection}!`;
+        console.log(`Player wins! ${player} beats ${computerSelection}!`);
+        return true;
       } else if (computerSelection == "paper") {
-        return `Computer wins! ${computerSelection} beats ${playerSelection}!`;
+        console.log(
+          `Computer wins! ${computerSelection} beats ${playerSelection}!`
+        );
+        return false;
       }
     case "paper":
       if (computerSelection == "rock") {
-        return `Player wins! ${player} beats ${computerSelection}!`;
+        console.log(`Player wins! ${player} beats ${computerSelection}!`);
+        return true;
       } else if (computerSelection == "scissors") {
-        return `Computer wins! ${computerSelection} beats ${playerSelection}!`;
+        console.log(
+          `Computer wins! ${computerSelection} beats ${playerSelection}!`
+        );
+        return false;
       }
     case "scissors":
       if (computerSelection == "paper") {
-        return `Player wins! ${player} beats ${computerSelection}!`;
+        console.log(`Player wins! ${player} beats ${computerSelection}!`);
+        return true;
       } else if (computerSelection == "rock") {
-        return `Computer wins! ${computerSelection} beats ${playerSelection}!`;
+        console.log(
+          `Computer wins! ${computerSelection} beats ${playerSelection}!`
+        );
+        return false;
       }
   }
 }
 
-function game() {
-  // we assign functions to each button with the corresponding player choice by assigning event listeners to each button, each calling the function playround with the player choice being the html of the button
+function updateScore(winner_bool) {
+  // if bool true, update for player. Else update for computer.
+  if (Math.max(ppoints, cpoints) == 5) {
+    if (ppoints > cpoints) {
+      console.log("Player wins!");
+    } else {
+      console.log("Computer wins!");
+    }
+  }
+  const div = document.querySelector(".results");
+  if (winner_bool == true) {
+    ppoints += 1;
+  } else if (winner_bool == false) {
+    cpoints += 1;
+  }
+  div.textContent = `Player ${ppoints} points! Computer ${cpoints} points!`;
+}
+
+function events() {
   const buttons = document.querySelectorAll("button");
   buttons.forEach((button) => {
     button.addEventListener("click", function (e) {
-      console.log(playRound(button.innerHTML, getComputerChoice()));
+      let winner = playRound(button.innerHTML, getComputerChoice());
+      updateScore(winner);
     });
   });
+}
+
+function game() {
+  // we assign functions to each button with the corresponding player choice by assigning event listeners to each button, each calling the function playround with the player choice being the html of the button
+  events();
 }
 
 game();
