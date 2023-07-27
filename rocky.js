@@ -1,3 +1,5 @@
+let points = 0;
+
 function getComputerChoice() {
   /*
     have an array of possible choices in lowercase
@@ -39,10 +41,13 @@ function playRound(playerSelection, computerSelection) {
 }
 
 function game() {
-  for (let i = 0; i < 5; i++) {
-    const playerSelection = prompt("rock paper scissors?");
-    console.log(playRound(playerSelection, getComputerChoice()));
-  }
+  // we assign functions to each button with the corresponding player choice by assigning event listeners to each button, each calling the function playround with the player choice being the html of the button
+  const buttons = document.querySelectorAll("button");
+  buttons.forEach((button) => {
+    button.addEventListener("click", function (e) {
+      console.log(playRound(button.innerHTML, getComputerChoice()));
+    });
+  });
 }
 
 game();
